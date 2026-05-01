@@ -814,3 +814,49 @@ footer {
   animation-range: entry 0% cover 28%;
 }
 
+.page {
+  min-height: 100vh;
+  padding: 160px 40px 80px;
+  background: var(--cream);
+}
+
+.pageInner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page h1 {
+  font-size: 64px;
+  letter-spacing: -0.06em;
+}
+
+.pageIntro {
+  margin-top: 20px;
+  font-size: 20px;
+  color: var(--brown-soft);
+}
+
+.pageBlock {
+  margin-top: 50px;
+}
+
+.pageBlock h3 {
+  font-size: 28px;
+}
+
+.pageBlock p {
+  margin-top: 10px;
+  color: var(--brown-soft);
+}
+
+.backHome {
+  display: inline-flex;
+  margin-bottom: 36px;
+  color: var(--rust);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.backHome:hover {
+  color: var(--brown);
+}

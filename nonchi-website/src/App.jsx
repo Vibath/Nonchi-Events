@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -11,40 +14,14 @@ import {
   GraduationCap,
 } from "lucide-react";
 import "./App.css";
+import { spaces } from "./data/spaces";
 import logo from "./assets/hero.png";
+import Events from "./pages/Events";
+import Journals from "./pages/Journals";
+import Creative from "./pages/Creative";
+import Foundation from "./pages/Foundation";
+import Education from "./pages/Education";
 
-const spaces = [
-  {
-    title: "Nonchi Events",
-    tag: "Curated Experiences",
-    text: "Meaningful gatherings designed with warmth, beauty, and intention.",
-    icon: CalendarHeart,
-  },
-  {
-    title: "Nonchi Journals",
-    tag: "Reflection & Growth",
-    text: "Tools for discipline, creativity, self-reflection, and calm living.",
-    icon: BookOpen,
-  },
-  {
-    title: "Nonchi Creative Content",
-    tag: "Stories & Ideas",
-    text: "Visual storytelling, thoughts, and perspectives shared with purpose.",
-    icon: Clapperboard,
-  },
-  {
-    title: "Nonchi Foundation",
-    tag: "Giving Back",
-    text: "A genuine space for kindness, community support, and real human impact.",
-    icon: HandHeart,
-  },
-  {
-    title: "Nonchi Education",
-    tag: "Learning With Purpose",
-    text: "Learning experiences, guidance, and knowledge-sharing for personal growth.",
-    icon: GraduationCap,
-  },
-];
 
 function Reveal({ children, className = "", id = "" }) {
   return (
@@ -61,7 +38,35 @@ function Reveal({ children, className = "", id = "" }) {
   );
 }
 
-function App() {
+function PageWrapper({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function App() {const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/journals" element={<Journals />} />
+        <Route path="/creative" element={<Creative />} />
+        <Route path="/foundation" element={<Foundation />} />
+        <Route path="/education" element={<Education />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function Home() {
   const [active, setActive] = useState(0);
 
   const next = () => setActive((active + 1) % spaces.length);
@@ -88,9 +93,9 @@ function App() {
                   const Icon = space.icon;
 
                   return (
-                    <a
+                    <Link
                       key={space.title}
-                      href="#spaces"
+                      to={space.path}
                       className="dropdownStep"
                       onClick={() => setActive(index)}
                       style={{ "--i": index }}
@@ -100,10 +105,10 @@ function App() {
                       </span>
 
                       <div>
-                        <strong>{space.title.replace("Nonchi ", "")}</strong>
+                      <strong>{space.shortTitle}</strong>
                         <small>{space.tag}</small>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
@@ -207,9 +212,9 @@ function App() {
                 <p className="spaceTag">{spaces[active].tag}</p>
                 <p className="spaceText">{spaces[active].text}</p>
 
-                <button className="exploreBtn">
+                <Link to={spaces[active].path} className="exploreBtn">
                   Explore this space <ArrowUpRight size={18} />
-                </button>
+                </Link>
               </div>
 
               <div className="cardStage">
@@ -234,7 +239,7 @@ function App() {
                       <div className="cardCircle"></div>
                       <div>
                         <p>Space 0{index + 1}</p>
-                        <h4>{space.title.replace("Nonchi ", "")}</h4>
+                        <h4>{space.shortTitle}</h4>
                       </div>
                     </motion.div>
                   );
