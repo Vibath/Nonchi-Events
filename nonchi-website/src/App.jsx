@@ -270,7 +270,7 @@ function Home() {
       </Reveal>
 
       <footer>
-        © 2026 Nonchi. Calm living, meaningful experiences.
+        © 2026 Dollyva. All rights reserved.
       </footer>
     </main>
   );
